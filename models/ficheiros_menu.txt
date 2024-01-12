@@ -1,0 +1,6 @@
+{
+    "pratos":[
+    {"id":3,"prato":"Batata com ovo","categoria de prato":"vegetariano"},
+    {"id":4,"prato":"Sopa de Legumes","categoria_de_prato":"vegetariano"}
+    ]
+}
