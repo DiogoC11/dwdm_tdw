@@ -3,9 +3,9 @@
 const express = require('express')
 const router = express.Router();
 const Pratos = require('../models/prato')
+const auth = require('../Autenticação')
 
-
-    router.get('/',(req,res) => {
+    router.get('/',auth,(req,res) => {
         // DBConnection().then((Pratos) => {
             Pratos.find().then((prato) => {
                 if(prato != null){
@@ -30,7 +30,7 @@ const Pratos = require('../models/prato')
         // })
 
     });
-    router.get('/:id',(req,res)=> {  
+    router.get('/:id',auth,(req,res)=> {  
         const idprato = parseInt(req.params.id);
 
         Pratos.findOne({ Codigo_de_Prato: idprato }).then((prato) => {
@@ -75,12 +75,12 @@ const Pratos = require('../models/prato')
         //     res.status(500).send('Read File Error');
         // })
     });
-    router.post("/adicionar/:id", (req, res) =>{
+    router.post("/adicionar/:id",auth,(req, res) =>{
         let idprato = parseInt(req.params.id);
         
         Pratos.findOne({Codigo_de_Prato:idprato}).then(async(prato) => {    
             if(prato){
-                return res.status(400).send(`Não existe prato com o id ${idprato}.`)
+                return res.status(400).send(`Já existe prato com id ${idprato}.`)
             }
             if(!req.body.prato || req.body.prato === ""){
                 return res.status(400).send("O elemento prato não pode estar vazio.")
@@ -136,7 +136,7 @@ const Pratos = require('../models/prato')
         // })
     // })
 })
-    router.patch("/update/:id", (req,res) =>{
+    router.patch("/update/:id",auth,(req,res) =>{
         let idprato = parseInt(req.params.id);
         Pratos.findOne({Codigo_de_Prato:idprato}).then(async (prato) =>{
             if(!prato){
@@ -204,7 +204,7 @@ const Pratos = require('../models/prato')
             // })
         // })
     })
-    router.delete("/delete/:id", (req, res) => {
+    router.delete("/delete/:id",auth,(req, res) => {
         let idprato = req.params.id;
         Pratos.findOne({Codigo_de_Prato:idprato}).then(async(prato)=>{
             if(!prato){
@@ -258,7 +258,7 @@ const Pratos = require('../models/prato')
         // })
     })
     
-    router.delete("/deleteAll", (req, res) => {
+    router.delete("/deleteAll",auth,(req, res) => {
         Pratos.find().then(async(prato)=>{
             if(prato = null){
                 return res.status(400).send("Não existem pratos no restaurante.")
